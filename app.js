@@ -12,27 +12,30 @@ const taskForm = document.getElementById('taskForm');
 const taskInput = document.getElementById('taskInput');
 const taskList = document.getElementById('taskList');
 
+const LS_KEY = 'pomodoro_tasks_v1';
+
 let timerId = null;
 let totalSeconds = 25 * 60;
 let remainingSeconds = totalSeconds;
 
-const LS_KEY = 'pomodoro_tasks_v1';
+function pad2(n) {
+  return String(n).padStart(2, '0');
+}
 
 function formatTime(s) {
   const m = Math.floor(s / 60);
   const sec = s % 60;
-  return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+  return `${pad2(m)}:${pad2(sec)}`;
 }
 
 function renderTime() {
   timeEl.textContent = formatTime(remainingSeconds);
 }
 
-function setMode(workMin, breakMin) {
-  totalSeconds = workMin * 60;
-  remainingSeconds = totalSeconds;
-  stopTimer();
-  renderTime();
+function stopTimer() {
+  if (timerId === null) return;
+  clearInterval(timerId);
+  timerId = null;
 }
 
 function tick() {
@@ -47,18 +50,19 @@ function tick() {
 }
 
 function startTimer() {
-  if (timerId) return;
+  if (timerId !== null) return;
   timerId = setInterval(tick, 1000);
-}
-
-function stopTimer() {
-  if (!timerId) return;
-  clearInterval(timerId);
-  timerId = null;
 }
 
 function resetTimer() {
   stopTimer();
+  remainingSeconds = totalSeconds;
+  renderTime();
+}
+
+function setMode(workMin) {
+  stopTimer();
+  totalSeconds = workMin * 60;
   remainingSeconds = totalSeconds;
   renderTime();
 }
@@ -104,9 +108,9 @@ function renderTasks() {
   });
 }
 
-modePomodoro.addEventListener('click', () => setMode(25, 5));
-modeShort.addEventListener('click', () => setMode(15, 3));
-modeLong.addEventListener('click', () => setMode(50, 10));
+modePomodoro.addEventListener('click', () => setMode(25));
+modeShort.addEventListener('click', () => setMode(15));
+modeLong.addEventListener('click', () => setMode(50));
 
 startBtn.addEventListener('click', startTimer);
 pauseBtn.addEventListener('click', stopTimer);
