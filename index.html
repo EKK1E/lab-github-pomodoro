@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Pomodoro</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1>Pomodoro</h1>
+
+      <section class="timer">
+        <div class="time" id="time">25:00</div>
+        <div class="modes">
+          <button id="modePomodoro" class="btn">25/5</button>
+          <button id="modeShort" class="btn">15/3</button>
+          <button id="modeLong" class="btn">50/10</button>
+        </div>
+        <div class="controls">
+          <button id="start" class="btn primary">Start</button>
+          <button id="pause" class="btn">Pause</button>
+          <button id="reset" class="btn">Reset</button>
+        </div>
+      </section>
+
+      <section class="tasks">
+        <h2>Tasks</h2>
+        <form id="taskForm" class="taskForm">
+          <input id="taskInput" type="text" placeholder="Add task..." />
+          <button class="btn primary" type="submit">Add</button>
+        </form>
+        <ul id="taskList" class="taskList"></ul>
+      </section>
+
+      <footer class="footer">LocalStorage • GitHub workflow lab</footer>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
